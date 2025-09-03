@@ -1,87 +1,138 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Leaf, Heart, Star, ShoppingCart } from 'lucide-react';
+import { ArrowRight, Leaf, Heart, Star, ShoppingCart, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import FeatureCard from '../components/FeatureCard';
 import { products } from '../data/products';
 
 const Homepage = () => {
-  const bestSellers = products.slice(0, 3);
+  const bestSellers = products.slice(0, 4);
 
   const features = [
     {
       icon: <Leaf className="w-8 h-8" />,
       title: '100% Natural',
-      description: 'No artificial additives or preservatives'
+      description: 'No artificial additives, preservatives, or chemicals - just pure, natural goodness'
     },
     {
       icon: <Heart className="w-8 h-8" />,
-      title: 'Nutrient-Rich',
-      description: 'Packed with essential vitamins and minerals'
+      title: 'Nutrient-Dense',
+      description: 'Packed with essential vitamins, minerals, and antioxidants for optimal health'
     },
     {
       icon: <Star className="w-8 h-8" />,
-      title: 'Crafted Traditionally',
-      description: 'Time-honored recipes passed down through generations'
+      title: 'Traditional Wisdom',
+      description: 'Time-honored recipes passed down through generations, perfected for modern life'
     }
   ];
 
+  const scrollProducts = (direction: 'left' | 'right') => {
+    const container = document.getElementById('products-carousel');
+    if (container) {
+      const scrollAmount = 320;
+      container.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <div className="pt-16 lg:pt-20">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(https://images.pexels.com/photos/4198018/pexels-photo-4198018.jpeg?auto=compress&cs=tinysrgb&w=1200)'
-          }}
-        />
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <motion.h1
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Tradition in Every Sip.
-            <span className="block text-emerald-400">Nutrition for Every Life.</span>
-          </motion.h1>
-          <motion.p
-            className="text-lg sm:text-xl text-stone-200 mt-6 leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Premium instant malt mixes crafted with nature's finest ingredients – designed for busy lives, healthy families, and timeless wellness.
-          </motion.p>
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Link
-              to="/shop"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2"
+    <div className="pt-16 lg:pt-20 pb-16 lg:pb-0">
+      {/* Hero Section - Split Screen */}
+      <section className="min-h-screen flex items-center bg-gradient-to-br from-botanical-50 to-mint-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left - Image */}
+            <motion.div
+              className="order-2 lg:order-1"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <ShoppingCart className="w-5 h-5" />
-              <span>Shop Now</span>
-            </Link>
-            <Link
-              to="/about"
-              className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border border-white/30 flex items-center justify-center space-x-2"
+              <div className="relative">
+                <img
+                  src="https://images.pexels.com/photos/4198018/pexels-photo-4198018.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  alt="Soul Sip Malts Premium Collection"
+                  className="w-full h-96 lg:h-[500px] object-cover rounded-4xl shadow-large"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-botanical-900/20 to-transparent rounded-4xl"></div>
+                <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-2xl">
+                  <span className="text-sm font-semibold text-botanical-700">Premium Quality Guaranteed</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right - Content */}
+            <motion.div
+              className="order-1 lg:order-2 text-center lg:text-left"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <span>Discover Our Story</span>
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </motion.div>
+              <motion.div
+                className="inline-block bg-botanical-100 text-botanical-700 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                ✨ Traditional Wellness Redefined
+              </motion.div>
+              
+              <h1 className="heading-xl text-neutral-800 mb-6 font-serif">
+                Tradition in Every Sip.
+                <span className="block text-botanical-600">Nutrition for Every Life.</span>
+              </h1>
+              
+              <p className="body-lg text-neutral-600 mb-8 max-w-xl mx-auto lg:mx-0">
+                Premium instant malt mixes crafted with nature's finest ingredients – designed for busy lives, healthy families, and timeless wellness.
+              </p>
+              
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <Link
+                  to="/shop"
+                  className="gradient-botanical text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-medium flex items-center justify-center space-x-2 btn-ripple"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  <span>Shop Premium Malts</span>
+                </Link>
+                <Link
+                  to="/about"
+                  className="bg-white border-2 border-botanical-200 text-botanical-700 hover:bg-botanical-50 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                  <span>Our Story</span>
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+
+              {/* Trust Indicators */}
+              <motion.div
+                className="flex items-center justify-center lg:justify-start space-x-6 mt-8 text-sm text-neutral-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+              >
+                <div className="flex items-center space-x-1">
+                  <Star className="w-4 h-4 text-earth-400 fill-current" />
+                  <span>4.8/5 Rating</span>
+                </div>
+                <div>10,000+ Happy Customers</div>
+                <div>100% Natural</div>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto container-padding">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -89,10 +140,10 @@ const Homepage = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-stone-800 mb-4">
+            <h2 className="heading-lg text-neutral-800 mb-6 font-serif">
               Why Choose Soul Sip Malts?
             </h2>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+            <p className="body-lg text-neutral-600 max-w-2xl mx-auto">
               Every sip delivers the perfect blend of tradition, nutrition, and taste
             </p>
           </motion.div>
@@ -104,56 +155,88 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Best Sellers Section */}
-      <section className="py-16 lg:py-24 bg-stone-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Best Sellers - Horizontal Carousel */}
+      <section className="section-padding bg-gradient-to-br from-botanical-50 to-mint-50">
+        <div className="max-w-7xl mx-auto container-padding">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-stone-800 mb-4">
+            <h2 className="heading-lg text-neutral-800 mb-6 font-serif">
               Our Best Sellers
             </h2>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+            <p className="body-lg text-neutral-600 max-w-2xl mx-auto">
               Discover our most loved malt blends, each crafted with care and tradition
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          {/* Carousel Controls */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex space-x-3">
+              <button
+                onClick={() => scrollProducts('left')}
+                className="p-3 rounded-2xl bg-white shadow-soft hover:shadow-medium transition-all duration-300 text-neutral-700 hover:text-botanical-600"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scrollProducts('right')}
+                className="p-3 rounded-2xl bg-white shadow-soft hover:shadow-medium transition-all duration-300 text-neutral-700 hover:text-botanical-600"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+            <Link
+              to="/shop"
+              className="text-botanical-600 hover:text-botanical-700 font-semibold flex items-center space-x-1 transition-colors"
+            >
+              <span>View All Products</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Products Carousel */}
+          <div
+            id="products-carousel"
+            className="flex space-x-6 overflow-x-auto carousel-container pb-4"
+          >
             {bestSellers.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
+              <div key={product.id} className="flex-none w-80">
+                <ProductCard product={product} index={index} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-emerald-600 to-emerald-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="section-padding gradient-botanical text-white">
+        <div className="max-w-7xl mx-auto container-padding text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            <h2 className="heading-lg mb-6 font-serif">
               Ready to Start Your Wellness Journey?
             </h2>
-            <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
+            <p className="body-lg text-botanical-100 mb-8 max-w-2xl mx-auto">
               Join thousands of families who have made Soul Sip Malts part of their daily nutrition routine.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/shop"
-                className="bg-white text-emerald-700 hover:bg-stone-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                className="bg-white text-botanical-700 hover:bg-botanical-50 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-large btn-ripple"
               >
                 Explore Our Products
               </Link>
               <Link
                 to="/franchise"
-                className="bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border border-emerald-400"
+                className="bg-botanical-500 hover:bg-botanical-400 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 border-2 border-botanical-400 btn-ripple"
               >
                 Start a Franchise
               </Link>
@@ -161,6 +244,22 @@ const Homepage = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Floating WhatsApp CTA */}
+      <motion.button
+        onClick={() => window.open('https://wa.me/918072361484', '_blank')}
+        className="floating-cta gradient-botanical text-white p-4 rounded-full shadow-large hover:shadow-xl transition-all duration-300 group"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 2, type: "spring", stiffness: 500, damping: 30 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <span className="absolute right-full mr-3 bg-neutral-800 text-white px-3 py-2 rounded-xl text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          Order on WhatsApp
+        </span>
+      </motion.button>
     </div>
   );
 };

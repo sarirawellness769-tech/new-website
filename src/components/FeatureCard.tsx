@@ -11,18 +11,22 @@ interface FeatureCardProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, index }) => {
   return (
     <motion.div
-      className="text-center p-8 rounded-2xl bg-stone-50 hover:bg-white hover:shadow-lg transition-all duration-300"
-      initial={{ opacity: 0, y: 30 }}
+      className="text-center p-8 rounded-4xl bg-white shadow-soft hover:shadow-medium transition-all duration-500 card-hover group"
+      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.4, 0, 0.2, 1] }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
     >
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl mb-6">
+      <motion.div
+        className="inline-flex items-center justify-center w-16 h-16 gradient-botanical text-white rounded-3xl mb-6 group-hover:scale-110 transition-transform duration-300"
+        whileHover={{ rotate: 5 }}
+      >
         {icon}
-      </div>
-      <h3 className="text-xl font-bold text-stone-800 mb-4">{title}</h3>
-      <p className="text-stone-600 leading-relaxed">{description}</p>
+      </motion.div>
+      <h3 className="text-xl font-bold text-neutral-800 mb-4 font-serif group-hover:text-botanical-600 transition-colors">
+        {title}
+      </h3>
+      <p className="text-neutral-600 leading-relaxed">{description}</p>
     </motion.div>
   );
 };

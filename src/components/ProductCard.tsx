@@ -23,7 +23,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
 
   const handleWishlistToggle = () => {
     if (!user) {
-      // Redirect to login if not authenticated
       window.location.href = '/auth';
       return;
     }
@@ -37,46 +36,55 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
 
   return (
     <motion.div
-      className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+      className="bg-white rounded-4xl shadow-soft overflow-hidden group hover:shadow-large transition-all duration-500 card-hover"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.4, 0, 0.2, 1] }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
     >
       <div className="relative overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
         />
-        <button 
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        <motion.button 
           onClick={handleWishlistToggle}
-          className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+          className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center hover:bg-white transition-all duration-300 shadow-soft"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
           <Heart className={`w-5 h-5 transition-colors ${
             user && isInWishlist(product.id) 
               ? 'text-red-500 fill-current' 
-              : 'text-stone-600 hover:text-red-500'
+              : 'text-neutral-600 hover:text-red-500'
           }`} />
-        </button>
-        <div className="absolute bottom-4 left-4 flex items-center space-x-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
-          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-          <span className="text-sm font-medium text-stone-700">{product.rating}</span>
+        </motion.button>
+        
+        <div className="absolute bottom-4 left-4 flex items-center space-x-1 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-2xl shadow-soft">
+          <Star className="w-4 h-4 text-earth-400 fill-current" />
+          <span className="text-sm font-semibold text-neutral-700">{product.rating}</span>
+          <span className="text-xs text-neutral-500">({product.reviews})</span>
         </div>
       </div>
       
       <div className="p-6">
-        <h3 className="text-xl font-bold text-stone-800 mb-2">{product.name}</h3>
-        <p className="text-stone-600 text-sm mb-4 leading-relaxed">{product.description}</p>
+        <h3 className="text-xl font-bold text-neutral-800 mb-3 font-serif group-hover:text-botanical-600 transition-colors">
+          {product.name}
+        </h3>
+        <p className="text-neutral-600 text-sm mb-4 leading-relaxed">
+          {product.description.substring(0, 100)}...
+        </p>
         
-        <div className="mb-4">
-          <h4 className="text-sm font-semibold text-stone-700 mb-2">Key Benefits:</h4>
-          <div className="flex flex-wrap gap-1">
-            {product.benefits.map((benefit, idx) => (
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold text-neutral-700 mb-3">Key Benefits:</h4>
+          <div className="flex flex-wrap gap-2">
+            {product.benefits.slice(0, 3).map((benefit, idx) => (
               <span
                 key={idx}
-                className="bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded-full"
+                className="bg-botanical-100 text-botanical-700 text-xs px-3 py-1 rounded-full font-medium"
               >
                 {benefit}
               </span>
@@ -85,18 +93,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-emerald-700">{product.price}</span>
+          <span className="text-2xl font-bold text-botanical-600 font-serif">{product.price}</span>
           <div className="flex space-x-2">
             <Link 
               to={`/product/${product.name.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-emerald-700 hover:text-emerald-800 px-4 py-2 rounded-lg border border-emerald-200 hover:bg-emerald-50 transition-colors text-sm font-medium flex items-center space-x-1"
+              className="text-botanical-600 hover:text-botanical-700 px-4 py-2 rounded-xl border-2 border-botanical-200 hover:bg-botanical-50 transition-all duration-300 text-sm font-medium flex items-center space-x-1"
             >
               <Eye className="w-4 h-4" />
-              <span>Read More</span>
+              <span>Details</span>
             </Link>
             <motion.button
               onClick={handleAddToCart}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+              className="gradient-botanical text-white px-4 py-2 rounded-xl flex items-center space-x-2 transition-all duration-300 shadow-soft hover:shadow-medium btn-ripple"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
